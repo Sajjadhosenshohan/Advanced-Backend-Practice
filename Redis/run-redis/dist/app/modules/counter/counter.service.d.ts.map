@@ -1,0 +1,1 @@
+{"version":3,"file":"counter.service.d.ts","sourceRoot":"","sources":["../../../../src/app/modules/counter/counter.service.ts"],"names":[],"mappings":"AAEA,QAAA,MAAM,iBAAiB,WAAkB,MAAM;;;EAK9C,CAAC;AAEF,QAAA,MAAM,UAAU,WAAkB,MAAM,UAAU,MAAM,GAAG,QAAQ;;;;EAiBlE,CAAC;AAEF,QAAA,MAAM,eAAe,QAAe,MAAM;;;EAGzC,CAAC;AAEF,eAAO,MAAM,cAAc;;;;CAI1B,CAAC"}

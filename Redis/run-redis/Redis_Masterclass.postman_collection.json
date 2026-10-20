@@ -1,0 +1,769 @@
+{
+  "info": {
+    "_postman_id": "a91b4e28-1f3a-4422-b5e1-8899redis0001",
+    "name": "Redis Complete Masterclass API Collection",
+    "description": "Complete collection of practical, production-ready Redis use cases for Express & TypeScript backend development. Ideal for tutorials, testing, and system architecture demonstrations.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5200",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "00. Health & System",
+      "item": [
+        {
+          "name": "API Index & Module Directory",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": [""]
+            }
+          }
+        },
+        {
+          "name": "Redis Ping Test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": ["{{baseUrl}}"],
+              "path": ["redis"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "01. Strings + TTL (OTP Flow)",
+      "item": [
+        {
+          "name": "Send OTP (SET with EX 300s)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/otp/send-otp",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "otp", "send-otp"]
+            }
+          }
+        },
+        {
+          "name": "Verify OTP (GET & DEL on Match)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"otp\": \"1234\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/otp/verify-otp",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "otp", "verify-otp"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02. Response Caching (Cache-Aside Pattern)",
+      "item": [
+        {
+          "name": "Get Products (Cache Miss vs Cache Hit)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cache/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cache", "products"]
+            }
+          }
+        },
+        {
+          "name": "Create Product (Cache Invalidation)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Keychron K2 Mechanical Keyboard\",\n  \"price\": 110,\n  \"category\": \"Accessories\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cache/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cache", "products"]
+            }
+          }
+        },
+        {
+          "name": "Clear Cache Manually",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/cache/clear?key=cache:products:all",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "cache", "clear"],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "cache:products:all"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03. Atomic Counters & Metrics",
+      "item": [
+        {
+          "name": "Increment Page View (INCR)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"pageId\": \"landing_page\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/counter/page-view",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "counter", "page-view"]
+            }
+          }
+        },
+        {
+          "name": "Like Post (INCR)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"postId\": \"post_404\",\n  \"action\": \"like\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/counter/like",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "counter", "like"]
+            }
+          }
+        },
+        {
+          "name": "Unlike Post (DECR)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"postId\": \"post_404\",\n  \"action\": \"unlike\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/counter/like",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "counter", "like"]
+            }
+          }
+        },
+        {
+          "name": "Get Counter Stats (GET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/counter/stats?key=counter:post:post_404:likes",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "counter", "stats"],
+              "query": [
+                {
+                  "key": "key",
+                  "value": "counter:post:post_404:likes"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04. Hashes (Profile & Cart)",
+      "item": [
+        {
+          "name": "Save User Profile (HSET)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"101\",\n  \"name\": \"Sajjad Hosen\",\n  \"email\": \"sajjad@example.com\",\n  \"role\": \"software_engineer\",\n  \"age\": 25\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/hash/user-profile",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hash", "user-profile"]
+            }
+          }
+        },
+        {
+          "name": "Get User Profile (HGETALL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hash/user-profile/101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hash", "user-profile", "101"]
+            }
+          }
+        },
+        {
+          "name": "Get Single Field in Hash (HGET)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hash/user-profile/101?field=role",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hash", "user-profile", "101"],
+              "query": [
+                {
+                  "key": "field",
+                  "value": "role"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add to Cart (HINCRBY)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"101\",\n  \"productId\": \"macbook_m3\",\n  \"quantity\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/hash/cart/add",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hash", "cart", "add"]
+            }
+          }
+        },
+        {
+          "name": "Get User Cart (HGETALL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/hash/cart/101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "hash", "cart", "101"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05. Lists (Queue & Recent Activity)",
+      "item": [
+        {
+          "name": "Push Task to Queue (LPUSH - Producer)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"queueName\": \"email_notifications\",\n  \"task\": {\n    \"to\": \"shohed@example.com\",\n    \"subject\": \"Welcome to Redis Masterclass!\",\n    \"timestamp\": \"2026-10-03\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/list/queue/push",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "list", "queue", "push"]
+            }
+          }
+        },
+        {
+          "name": "Pop Task from Queue (RPOP - Consumer)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"queueName\": \"email_notifications\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/list/queue/pop",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "list", "queue", "pop"]
+            }
+          }
+        },
+        {
+          "name": "Add Recent Activity (LPUSH + LTRIM)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"101\",\n  \"activity\": \"User updated their payment method\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/list/recent-activities",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "list", "recent-activities"]
+            }
+          }
+        },
+        {
+          "name": "Get Recent Activities (LRANGE)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/list/recent-activities/101",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "list", "recent-activities", "101"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06. Sets (Online Users & Mutual Interests)",
+      "item": [
+        {
+          "name": "Update Online Status (SADD / SREM)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"user_sajjad\",\n  \"status\": \"online\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/set/online-status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "online-status"]
+            }
+          }
+        },
+        {
+          "name": "Get All Online Users (SMEMBERS)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/set/online-users",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "online-users"]
+            }
+          }
+        },
+        {
+          "name": "Check If User Is Online (SISMEMBER)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/set/is-online/user_sajjad",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "is-online", "user_sajjad"]
+            }
+          }
+        },
+        {
+          "name": "Save User 1 Interests (SADD)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"alice\",\n  \"interests\": [\"coding\", \"redis\", \"football\", \"chess\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/set/interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "interests"]
+            }
+          }
+        },
+        {
+          "name": "Save User 2 Interests (SADD)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"bob\",\n  \"interests\": [\"gaming\", \"redis\", \"football\", \"movies\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/set/interests",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "interests"]
+            }
+          }
+        },
+        {
+          "name": "Get Mutual Interests (SINTER)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/set/mutual-interests?user1=alice&user2=bob",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "set", "mutual-interests"],
+              "query": [
+                { "key": "user1", "value": "alice" },
+                { "key": "user2", "value": "bob" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07. Sorted Sets (Leaderboards & Ranking)",
+      "item": [
+        {
+          "name": "Submit Player Score (ZADD)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"Sajjad\",\n  \"score\": 2500,\n  \"leaderboardName\": \"weekly\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leaderboard/submit-score",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leaderboard", "submit-score"]
+            }
+          }
+        },
+        {
+          "name": "Increment Player Score (ZINCRBY)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"Sajjad\",\n  \"points\": 150,\n  \"leaderboardName\": \"weekly\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/leaderboard/increment-score",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leaderboard", "increment-score"]
+            }
+          }
+        },
+        {
+          "name": "Get Top Players (ZREVRANGE)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/leaderboard/top?limit=10&leaderboardName=weekly",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leaderboard", "top"],
+              "query": [
+                { "key": "limit", "value": "10" },
+                { "key": "leaderboardName", "value": "weekly" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Player Rank & Score (ZREVRANK & ZSCORE)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/leaderboard/player-rank/Sajjad?leaderboardName=weekly",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "leaderboard", "player-rank", "Sajjad"],
+              "query": [
+                { "key": "leaderboardName", "value": "weekly" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08. Rate Limiting & Throttling",
+      "item": [
+        {
+          "name": "Test Rate Limit (Max 5 req / 30s)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/rate-limit/test",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "rate-limit", "test"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "09. Distributed Locking (Concurrency)",
+      "item": [
+        {
+          "name": "Book Ticket With Mutex Lock (SET NX PX)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ticketId\": \"VIP_SEAT_1\",\n  \"userId\": \"user_sajjad\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/lock/book-ticket",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "lock", "book-ticket"]
+            }
+          }
+        },
+        {
+          "name": "Check Ticket Status & Lock State",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/lock/ticket-status/VIP_SEAT_1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "lock", "ticket-status", "VIP_SEAT_1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "10. Pub/Sub (Real-time Broadcast)",
+      "item": [
+        {
+          "name": "Publish Event (PUBLISH)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"channel\": \"notifications:live\",\n  \"message\": {\n    \"event\": \"NEW_SUBSCRIBER\",\n    \"username\": \"Sajjad\",\n    \"timestamp\": \"2026-10-03T12:00:00Z\"\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pubsub/publish",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "pubsub", "publish"]
+            }
+          }
+        },
+        {
+          "name": "Get Received Messages (Listener Log)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/pubsub/messages",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "pubsub", "messages"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "11. Geospatial (Nearby & Distance)",
+      "item": [
+        {
+          "name": "Add Rider 1 Location (GEOADD Gulshan)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riderId\": \"rider_gulshan_1\",\n  \"longitude\": 90.4152,\n  \"latitude\": 23.7925\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/geo/add-location",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "geo", "add-location"]
+            }
+          }
+        },
+        {
+          "name": "Add Rider 2 Location (GEOADD Banani)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"riderId\": \"rider_banani_2\",\n  \"longitude\": 90.4043,\n  \"latitude\": 23.7937\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/geo/add-location",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "geo", "add-location"]
+            }
+          }
+        },
+        {
+          "name": "Calculate Distance (GEODIST)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/geo/distance?rider1=rider_gulshan_1&rider2=rider_banani_2&unit=km",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "geo", "distance"],
+              "query": [
+                { "key": "rider1", "value": "rider_gulshan_1" },
+                { "key": "rider2", "value": "rider_banani_2" },
+                { "key": "unit", "value": "km" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Find Nearby Riders within Radius (GEOSEARCH)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/geo/nearby?longitude=90.4125&latitude=23.7900&radiusKm=5",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "geo", "nearby"],
+              "query": [
+                { "key": "longitude", "value": "90.4125" },
+                { "key": "latitude", "value": "23.7900" },
+                { "key": "radiusKm", "value": "5" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "12. Big Data Analytics (HLL & Bitmaps)",
+      "item": [
+        {
+          "name": "Record Unique Visitor (PFADD HyperLogLog)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"page\": \"pricing\",\n  \"visitorId\": \"192.168.1.10\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics/hll/visit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics", "hll", "visit"]
+            }
+          }
+        },
+        {
+          "name": "Get Unique Visitors Count (PFCOUNT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics/hll/count?page=pricing",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics", "hll", "count"],
+              "query": [
+                { "key": "page", "value": "pricing" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Mark Daily Active User (SETBIT Bitmap)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 42,\n  \"date\": \"2026-10-03\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics/bitmap/active",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics", "bitmap", "active"]
+            }
+          }
+        },
+        {
+          "name": "Get DAU Count & User Check (BITCOUNT & GETBIT)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/analytics/bitmap/status?userId=42&date=2026-10-03",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "analytics", "bitmap", "status"],
+              "query": [
+                { "key": "userId", "value": "42" },
+                { "key": "date", "value": "2026-10-03" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "13. Pipelines & Transactions",
+      "item": [
+        {
+          "name": "Pipelining Batch Speed Demo (PIPELINE)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"totalItems\": 100\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/batch/pipeline-demo",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "batch", "pipeline-demo"]
+            }
+          }
+        },
+        {
+          "name": "Atomic Wallet Transfer (MULTI / EXEC)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromUser\": \"alice\",\n  \"toUser\": \"bob\",\n  \"amount\": 50\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/batch/wallet-transfer",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "batch", "wallet-transfer"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

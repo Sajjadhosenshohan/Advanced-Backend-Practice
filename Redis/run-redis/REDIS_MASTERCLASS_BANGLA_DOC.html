@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redis Complete Masterclass — বাংলা ডকুমেন্টেশন</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    @page {
+      size: A4;
+      margin: 18mm 16mm 18mm 16mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Inter', sans-serif;
+        font-size: 9pt;
+        color: #64748b;
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Hind Siliguri', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 13.5pt;
+      line-height: 1.7;
+      color: #1e293b;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Cover / Header Section */
+    .document-header {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+      color: #ffffff;
+      padding: 35px 30px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      page-break-after: avoid;
+    }
+
+    .document-header h1 {
+      color: #ffffff !important;
+      font-size: 26pt;
+      margin: 0 0 10px 0;
+      font-weight: 700;
+      border: none !important;
+      page-break-before: avoid !important;
+    }
+
+    .document-header p {
+      color: #cbd5e1;
+      font-size: 13pt;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .badge-container {
+      margin-top: 15px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 10.5pt;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    /* Headings */
+    h1, h2, h3, h4, h5, h6 {
+      color: #0f172a;
+      font-weight: 700;
+      line-height: 1.35;
+      page-break-after: avoid;
+    }
+
+    /* Module level heading */
+    h1 {
+      font-size: 20pt;
+      color: #1e1b4b;
+      border-bottom: 2.5px solid #4f46e5;
+      padding-bottom: 8px;
+      margin-top: 36px;
+      margin-bottom: 18px;
+      page-break-before: always;
+    }
+
+    /* Don't break page before first heading */
+    h1:first-of-type,
+    .no-break-before {
+      page-break-before: avoid !important;
+    }
+
+    h2 {
+      font-size: 16pt;
+      color: #312e81;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    h3 {
+      font-size: 14pt;
+      color: #4338ca;
+      margin-top: 18px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-top: 0;
+      margin-bottom: 12px;
+      text-align: justify;
+    }
+
+    /* Strong / Bold */
+    strong {
+      color: #0f172a;
+      font-weight: 700;
+    }
+
+    /* Blockquote / Callouts */
+    blockquote {
+      background: #f8fafc;
+      border-left: 5px solid #4f46e5;
+      margin: 16px 0;
+      padding: 12px 18px;
+      border-radius: 0 8px 8px 0;
+      color: #334155;
+      font-size: 13pt;
+    }
+
+    blockquote p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Code Blocks */
+    pre {
+      background-color: #0f172a;
+      color: #f8fafc;
+      padding: 14px 18px;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 10.5pt;
+      line-height: 1.55;
+      margin: 14px 0;
+      page-break-inside: avoid;
+      border: 1px solid #1e293b;
+    }
+
+    code {
+      font-family: 'Fira Code', 'Courier New', monospace;
+      font-size: 10.5pt;
+      background-color: #f1f5f9;
+      color: #b91c1c;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+    }
+
+    pre code {
+      background-color: transparent !important;
+      color: #f1f5f9 !important;
+      padding: 0;
+      border: none;
+      font-size: 10.5pt;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: 12pt;
+      page-break-inside: avoid;
+    }
+
+    th, td {
+      border: 1px solid #cbd5e1;
+      padding: 9px 12px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    th {
+      background-color: #e0e7ff;
+      color: #1e1b4b;
+      font-weight: 700;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Lists */
+    ul, ol {
+      margin-top: 0;
+      margin-bottom: 14px;
+      padding-left: 24px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    hr {
+      border: none;
+      border-top: 1.5px solid #e2e8f0;
+      margin: 28px 0;
+    }
+
+    /* Clickable links */
+    a {
+      color: #4f46e5;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    /* Print optimizers */
+    @media print {
+      body {
+        font-size: 11pt;
+        line-height: 1.6;
+      }
+
+      h1 {
+        font-size: 17pt;
+      }
+
+      h2 {
+        font-size: 14pt;
+      }
+
+      h3 {
+        font-size: 12.5pt;
+      }
+
+      pre {
+        font-size: 9.5pt;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="document-header">
+    <h1>🚀 Redis Complete Masterclass</h1>
+    <p>সবগুলো রিয়েল-ওয়ার্ল্ড ইউজ কেস, ইন্টারনাল মেকানিজম এবং আর্কিটেকচারাল ব্যাখ্যা — সহজ বাংলায় সম্পূর্ণ গাইডবুক</p>
+    <div class="badge-container">
+      <span class="badge">13 Core Modules</span>
+      <span class="badge">Production Ready</span>
+      <span class="badge">TypeScript & ioredis</span>
+      <span class="badge">Postman Ready</span>
+      <span class="badge">Video & Interview Guide</span>
+    </div>
+  </div>
+
+  <h1>📘 Redis Complete Masterclass — সহজ ভাষায় গভীর বিশ্লেষণ (A to Z গাইড)</h1>
+<blockquote>
+<p>এই ডকুমেন্টটি বিশেষভাবে তৈরি করা হয়েছে যাতে Redis-এর প্রতিটি কনসেপ্ট একদম গোড়া থেকে বাস্তব জীবনের উদাহরণের সাহায্যে সহজে বোঝা যায়। আপনি নিজে শেখার জন্য বা ইউটিউব/কোর্সের ভিডিও বানানোর সময় এটি একটি পরিপূর্ণ স্ক্রিপ্ট ও রেফারেন্স হিসেবে ব্যবহার করতে পারবেন।</p>
+</blockquote>
+<hr>
+<h2>📑 সূচিপত্র</h2>
+<ol>
+<li><a href="#-redis-%E0%A6%95%E0%A7%80-%E0%A6%8F%E0%A6%AC%E0%A6%82-%E0%A6%B8%E0%A6%BE%E0%A6%A7%E0%A6%BE%E0%A6%B0%E0%A6%A3-%E0%A6%A1%E0%A6%BE%E0%A6%9F%E0%A6%BE%E0%A6%AC%E0%A7%87%E0%A6%B8%E0%A7%87%E0%A6%B0-%E0%A6%B8%E0%A6%BE%E0%A6%A5%E0%A7%87-%E0%A6%8F%E0%A6%B0-%E0%A6%AA%E0%A6%BE%E0%A6%B0%E0%A7%8D%E0%A6%A5%E0%A6%95%E0%A7%8D%E0%A6%AF-%E0%A6%95%E0%A7%80">Redis কী এবং সাধারণ ডাটাবেসের সাথে এর পার্থক্য কী?</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A7-otp--temporary-tokens-strings--ttl">মডিউল ১: OTP &amp; Temporary Tokens (Strings + TTL)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A8-response-caching--invalidation-cache-aside-pattern">মডিউল ২: Response Caching &amp; Invalidation (Cache-Aside Pattern)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A9-atomic-counters--metrics-incr--decr">মডিউল ৩: Atomic Counters &amp; Metrics (INCR / DECR)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AA-redis-hashes-user-profile--shopping-cart">মডিউল ৪: Redis Hashes (User Profile &amp; Shopping Cart)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AB-redis-lists-task-queue--recent-activities">মডিউল ৫: Redis Lists (Task Queue &amp; Recent Activities)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AC-redis-sets-online-users--mutual-interests">মডিউল ৬: Redis Sets (Online Users &amp; Mutual Interests)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AD-sorted-sets--zset-real-time-leaderboards--ranking">মডিউল ৭: Sorted Sets / ZSET (Real-Time Leaderboards &amp; Ranking)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AE-api-rate-limiting-middleware-ddos--bot-throttling">মডিউল ৮: API Rate Limiting Middleware (DDoS &amp; Bot Throttling)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%AF-distributed-mutex-lock-double-booking--concurrency">মডিউল ৯: Distributed Mutex Lock (Double Booking &amp; Concurrency)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A7%E0%A7%A6-redis-pubsub-real-time-event-broadcasting">মডিউল ১০: Redis Pub/Sub (Real-Time Event Broadcasting)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A7%E0%A7%A7-geospatial-queries-nearby-riders--distance-calculation">মডিউল ১১: Geospatial Queries (Nearby Riders &amp; Distance Calculation)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A7%E0%A7%A8-big-data-analytics-hyperloglog--bitmaps">মডিউল ১২: Big Data Analytics (HyperLogLog &amp; Bitmaps)</a></li>
+<li><a href="#%E0%A6%AE%E0%A6%A1%E0%A6%BF%E0%A6%89%E0%A6%B2-%E0%A7%A7%E0%A7%A9-pipelines--atomic-transactions-multi--exec">মডিউল ১৩: Pipelines &amp; Atomic Transactions (MULTI / EXEC)</a></li>
+</ol>
+<hr>
+<h2>🧠 Redis কী এবং সাধারণ ডাটাবেসের সাথে এর পার্থক্য কী?</h2>
+<h3>১. সহজ বাস্তব জীবনের উদাহরণ:</h3>
+<ul>
+<li><strong>MongoDB / PostgreSQL হলো আপনার বাড়ির চিলেকোঠার আলমারি:</strong> সেখানে লাখ লাখ ফাইল সুন্দর করে সাজানো থাকে (Hard Disk / SSD)। কিন্তু সেখান থেকে একটি ফাইল খুঁজে বের করে এনে পড়তে একটু সময় লাগে (যেমন ২০-১০০ মিলিসেকেন্ড)।</li>
+<li><strong>Redis হলো আপনার পড়ার টেবিলের ওপর রাখা প্যাড:</strong> যে কাগজগুলো আপনার এই মুহূর্তে সবচেয়ে বেশি দরকার (যেমন কার ওটিপি কত, লাইভ স্কোর কত), সেগুলো আপনি টেবিলের ওপর চোখের সামনে রেখে দেন (RAM - Random Access Memory)। এক পলকেই দেখা যায় (মাত্র ১-২ মিলিসেকেন্ড)!</li>
+</ul>
+<h3>২. মূল টেকনিক্যাল পার্থক্য:</h3>
+<table>
+<thead>
+<tr>
+<th>বৈশিষ্ট্য</th>
+<th>সাধারণ ডাটাবেস (SQL / NoSQL)</th>
+<th>Redis</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>স্টোরেজ কোথায় থাকে?</strong></td>
+<td>Hard Disk বা SSD তে</td>
+<td>কম্পিউটারের র‍্যামে (RAM)</td>
+</tr>
+<tr>
+<td><strong>স্পিড (ল্যাটেন্সি)</strong></td>
+<td>২০ms থেকে ৩০০ms</td>
+<td>০.৫ms থেকে ২ms (বিদ্যুৎ গতি!)</td>
+</tr>
+<tr>
+<td><strong>উদ্দেশ্য</strong></td>
+<td>স্থায়ী ডাটা স্টোরেজ</td>
+<td>ক্যাশিং, লাইভ কাউন্টিং, রিয়েল-টাইম অপারেশন</td>
+</tr>
+<tr>
+<td><strong>আর্কিটেকচার</strong></td>
+<td>মাল্টি-থ্রেডেড কুয়েরি প্রসেসিং</td>
+<td>সিঙ্গেল-থ্রেডেড ইভেন্ট লুপ (কোনো রেস কন্ডিশন নেই)</td>
+</tr>
+</tbody></table>
+<hr>
+<h1>মডিউল ১: OTP &amp; Temporary Tokens (Strings + TTL)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/otp/otp.service.ts"><code>src/app/modules/otp/otp.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা:</h3>
+<p>ধরা যাক, একজন ইউজার সাইন-আপ করার সময় তার ফোনে একটি ৪ ডিজিটের OTP পাঠালেন। এই OTP-র মেয়াদ মাত্র ৫ মিনিট।</p>
+<ul>
+<li><strong>সমস্যা:</strong> আপনি যদি এটি MongoDB বা MySQL-এ সেভ করেন, ৫ মিনিট পর এটিকে ডিলিট করবে কে? আপনাকে ব্যাকগ্রাউন্ডে একটি ক্রন জব (Cron Job) চালাতে হবে যা প্রতি মিনিটে ডাটাবেসে স্ক্যান করে পুরনো ওটিপি ডিলিট করবে। এতে ডাটাবেসের ওপর অযথা প্রেশার পড়ে।</li>
+<li><strong>Redis কীভাবে সমাধান করে?</strong> Redis-এ একটি ফিচার আছে যাকে বলে <strong>TTL (Time-To-Live)</strong>। আপনি Redis-কে বলে দেবেন: <em>&quot;এই ওটিপি রাখো, ৩০০ সেকেন্ড পর এটা নিজে নিজেই হাওয়া হয়ে যাবে।&quot;</em> Redis নির্দিষ্ট সময় পর মেমোরি থেকে এটিকে ডিলিট করে দেয়।</li>
+</ul>
+<h3>২. কোড কীভাবে কাজ করছে?</h3>
+<pre><code class="language-typescript">// ১. ওটিপি তৈরি ও সেভ করা (৩০০ সেকেন্ড মেয়াদের জন্য)
+await redis.set(`otp:${email}`, otp, &quot;EX&quot;, 300);
+
+// ২. ওটিপি খোঁজা ও সময় দেখা
+const storedOTP = await redis.get(`otp:${email}`);
+const ttl = await redis.ttl(`otp:${email}`);
+
+// ৩. একবার ভেরিফাই হয়ে গেলে ডিলিট করা (One-time use)
+await redis.del(`otp:${email}`);
+</code></pre>
+<ul>
+<li><code>SET key value EX 300</code>: <code>EX</code> মানে Expiration in seconds। কি তৈরি এবং মেয়াদ সেট—দুটো কাজ একসাথে এক মাইক্রো-সেকেন্ডে ঘটে।</li>
+<li><code>TTL key</code>: এটি দিয়ে জানা যায় আর কত সেকেন্ড বাকি আছে।</li>
+<li><code>DEL key</code>: ইউজার সঠিক ওটিপি দিলে সাথে সাথে ডিলিট করে দেওয়া হয় যাতে একই ওটিপি দিয়ে দ্বিতীয়বার কেউ লগইন না করতে পারে।</li>
+</ul>
+<h3>🧪 পোস্টম্যানে টেস্ট:</h3>
+<ol>
+<li><code>POST /api/otp/send-otp</code> বডিতে <code>{ &quot;email&quot;: &quot;sajjad@test.com&quot; }</code> পাঠালে ওটিপি জেনারেট হবে।</li>
+<li><code>POST /api/otp/verify-otp</code> এ সঠিক ওটিপি দিলে বলবে &quot;OTP verified successfully&quot;। ৫ মিনিট পর দিলে বলবে &quot;OTP expired or not found&quot;।</li>
+</ol>
+<hr>
+<h1>মডিউল ২: Response Caching &amp; Invalidation (Cache-Aside Pattern)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/cache/cache.service.ts"><code>src/app/modules/cache/cache.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা:</h3>
+<p>আপনার একটি দারাজ বা অ্যামাজনের মতো ই-কমার্স ওয়েবসাইট আছে। হোমপেজে ঢুকলে ১০০০টি প্রোডাক্ট লোড হয়।</p>
+<ul>
+<li>ডাটাবেসে জটিল কুয়েরি (Join, Sort, Aggregation) চালিয়ে ১০০০টি প্রোডাক্ট আনতে সময় লাগে <strong>১৫০০ মিলিসেকেন্ড (১.৫ সেকেন্ড)</strong>।</li>
+<li>যদি প্রতি মিনিটে ১০,০০০ জন ইউজার ওয়েবসাইটে আসে, ডাটাবেসের ওপর বিশাল লোড পড়বে এবং সাইট ক্র্যাশ করবে।</li>
+</ul>
+<h3>২. Cache-Aside প্যাটার্ন কী?</h3>
+<ol>
+<li><strong>প্রথম রিকোয়েস্ট (Cache Miss):</strong> ইউজার আসল। Redis চেক করে দেখা গেল কিচ্ছু নেই। তখন ডাটাবেস থেকে আনতে ১.৫ সেকেন্ড লাগল। আনার পর আমরা রেজাল্টটি Redis-এ ৬০ সেকেন্ডের জন্য ক্যাশ করে রাখলাম।</li>
+<li><strong>দ্বিতীয় রিকোয়েস্ট (Cache Hit):</strong> দ্বিতীয় ইউজার আসল। এবার আর ডাটাবেসে যাওয়ার দরকার নেই! Redis থেকে ডাটা নিয়ে আসতে সময় লাগবে মাত্র <strong>১-২ মিলিসেকেন্ড</strong>!</li>
+<li><strong>Cache Invalidation (ক্যাশ মোছা):</strong> অ্যাডমিন যদি নতুন একটি প্রোডাক্ট যোগ করে, তখন পুরনো ক্যাশ রেখে দিলে ইউজার নতুন প্রোডাক্ট দেখতে পাবে না। তাই নতুন প্রোডাক্ট সেভ হওয়ার সাথে সাথে <code>redis.del(&quot;cache:products:all&quot;)</code> কল করে ক্যাশ মুছে ফেলা হয়।</li>
+</ol>
+<h3>৩. কোড বিশ্লেষণ:</h3>
+<pre><code class="language-typescript">// ১. আগে ক্যাশ চেক করি
+const cachedData = await redis.get(CACHE_KEY);
+if (cachedData) {
+  return JSON.parse(cachedData); // ⚡ ১ মিলিসেকেন্ডে রেসপন্স!
+}
+
+// ২. ক্যাশে না থাকলে আসল DB থেকে আনি
+const products = await fetchFromDB(); 
+
+// ৩. পরের বারের জন্য Redis-এ ৬০ সেকেন্ডের জন্য রেখে দিই
+await redis.set(CACHE_KEY, JSON.stringify(products), &quot;EX&quot;, 60);
+</code></pre>
+<h3>🧪 পোস্টম্যানে টেস্ট:</h3>
+<ol>
+<li><code>GET /api/cache/products</code> প্রথমবার রান করলে রেসপন্সে দেখতে পাবেন: <code>source: &quot;DATABASE&quot;, responseTime: &quot;1504 ms&quot;</code>।</li>
+<li>সাথে সাথে আবার সেন্ড করুন! দেখতে পাবেন: <code>source: &quot;REDIS_CACHE&quot;, responseTime: &quot;2 ms&quot;</code>! চোখের পলকে রেজাল্ট চলে আসবে।</li>
+</ol>
+<hr>
+<h1>মডিউল ৩: Atomic Counters &amp; Metrics (INCR / DECR)</h1>
+<p>📂 <strong>কোড রেফারেন্স:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/counter/counter.service.ts"><code>src/app/modules/counter/counter.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা (Race Condition):</h3>
+<p>ধরা যাক ইউটিউবে একটি ভিডিওর ভিউ কাউন্ট ১০০ আছে।</p>
+<ul>
+<li>একই সাথে দুজন মানুষ ভিডিওটি প্লে করল।</li>
+<li>ডাটাবেস কোড যদি সাধারণ নিয়মে চলে:<ul>
+<li>ইউজার ১ ডাটাবেস থেকে পড়ল: ভিউ ১০০।</li>
+<li>ইউজার ২ ডাটাবেস থেকে পড়ল: ভিউ ১০০।</li>
+<li>ইউজার ১ ১০০ এর সাথে ১ যোগ করে ডাটাবেসে ১০১ সেভ করল।</li>
+<li>ইউজার ২-ও ১০০ এর সাথে ১ যোগ করে ডাটাবেসে ১০১ সেভ করল।</li>
+</ul>
+</li>
+<li><strong>ফলাফল:</strong> দুজন মানুষ ভিডিও দেখলেও ভিউ বাড়ল মাত্র ১টি! একে বলে <strong>Race Condition বা Concurrency Bug</strong>।</li>
+</ul>
+<h3>২. Redis কীভাবে সমাধান করে?</h3>
+<p>Redis ইঞ্জিন হলো <strong>সিঙ্গেল-থ্রেডেড (Single-Threaded)</strong>। তার মানে Redis-এর কাছে যদি একসাথে ১০০০টি ইনক্রিমেন্ট রিকোয়েস্ট আসে, Redis সেগুলোকে সিরিয়ালি একটার পর একটা সাজিয়ে নেয়।</p>
+<ul>
+<li><code>INCR</code> কমান্ড কোনো রিড-রাইট ঝামেলা ছাড়াই মেমোরিতে সরাসরি ১ বাড়িয়ে দেয়।</li>
+<li>১০,০০০ মানুষ একই মিলি-সেকেন্ডে ক্লিক করলেও ১টি ভিউ বা লাইকও মিস হবে না!</li>
+</ul>
+<pre><code class="language-typescript">// পেজ ভিউ বা লাইক ১ বাড়ানো
+const views = await redis.incr(`counter:pageview:${pageId}`);
+
+// আনলাইক করলে ১ কমানো
+const likes = await redis.decr(`counter:post:${postId}:likes`);
+</code></pre>
+<hr>
+<h1>মডিউল ৪: Redis Hashes (User Profile &amp; Shopping Cart)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/hash/hash.service.ts"><code>src/app/modules/hash/hash.service.ts</code></a></p>
+<h3>১. String বনাম Hash (কেন আমরা Hash ব্যবহার করব?)</h3>
+<p>ধরা যাক ইউজারের প্রোফাইল এমন:<br><code>{ name: &quot;Sajjad&quot;, age: 25, role: &quot;developer&quot;, city: &quot;Dhaka&quot; }</code></p>
+<ul>
+<li><strong>JSON String হিসেবে রাখলে সমস্যা:</strong><br>আপনি যদি শুধু ইউজারের বয়স ২৫ থেকে ২৬ করতে চান, আপনাকে পুরো অবজেক্টটি ডাউনলোড করতে হবে -&gt; <code>JSON.parse</code> করতে হবে -&gt; age পরিবর্তন করতে হবে -&gt; আবার <code>JSON.stringify</code> করে পুরোটা আপলোড করতে হবে। ছোট একটি কাজের জন্য বিশাল প্রসেসিং!</li>
+<li><strong>Redis Hash-এর সুবিধা:</strong><br>Redis Hash হলো একটি অবজেক্টের মতো ডিকশনারি। আপনি চাইলে পুরো অবজেক্ট না ছুঁয়ে শুধুমাত্র একটি ফিল্ড আপডেট করতে পারেন:<pre><code class="language-bash">HSET user:101 age 26
+</code></pre>
+মাত্র ১টি ফিল্ড আপডেট হয়ে যাবে, বাকি ফিল্ডগুলো অপরিবর্তিত থাকবে।</li>
+</ul>
+<h3>২. শপিং কার্টের উদাহরণ:</h3>
+<pre><code class="language-typescript">// কার্টে ১টি ম্যাকবুক যোগ করা (HINCRBY)
+await redis.hincrby(`cart:${userId}`, &quot;macbook_m3&quot;, 1);
+
+// ইউজারের পুরো কার্ট দেখা
+const cart = await redis.hgetall(`cart:${userId}`);
+</code></pre>
+<p>ইউজার যতবার &quot;Add to Cart&quot; চাপবে, <code>HINCRBY</code> কোয়ান্টিটি ১ করে বাড়িয়ে দেবে। কোয়ান্টিটি ০ হয়ে গেলে <code>HDEL</code> দিয়ে প্রোডাক্টটি কার্ট থেকে ফেলে দেওয়া হয়।</p>
+<hr>
+<h1>মডিউল ৫: Redis Lists (Task Queue &amp; Recent Activities)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/list/list.service.ts"><code>src/app/modules/list/list.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা:</h3>
+<p>ইউজার সাইন আপ করার পর তাকে একটি ওয়েলকাম ইমেইল পাঠাতে হবে। ইমেইল পাঠাতে ৩ সেকেন্ড সময় লাগে।</p>
+<ul>
+<li>ইউজার যদি সাইন-আপ বাটনে ক্লিক করে ৩ সেকেন্ড লোডিং স্ক্রিন দেখে বসে থাকে, তবে ইউজারের অভিজ্ঞতা খুব খারাপ হবে।</li>
+<li><strong>সমাধান:</strong> আমরা সাইন-আপ শেষ করেই একটি টাস্ক Redis লিস্টে ফেলে দেব (<code>LPUSH</code>), আর ইউজারকে সাথে সাথে &quot;Success&quot; রেসপন্স দিয়ে দেব। ব্যাকগ্রাউন্ডে একটি ওয়ার্কার প্রসেস শান্তিমতো লিস্ট থেকে টাস্ক তুলে তুলে (<code>RPOP</code>) ইমেইল পাঠাবে। একে বলে <strong>Producer-Consumer Architecture</strong> বা <strong>Background Queue</strong>।</li>
+</ul>
+<h3>২. কোড বিশ্লেষণ:</h3>
+<pre><code class="language-typescript">// Producer: কিউ-তে টাস্ক পুশ করা (বাঁ দিক দিয়ে ঢোকানো)
+await redis.lpush(&quot;queue:emails&quot;, JSON.stringify({ to: &quot;user@test.com&quot;, subject: &quot;Welcome&quot; }));
+
+// Consumer: কিউ থেকে কাজ বের করা (ডান দিক দিয়ে বের করা - FIFO)
+const task = await redis.rpop(&quot;queue:emails&quot;);
+</code></pre>
+<h3>৩. রিসেন্ট অ্যাক্টিভিটি ক্যাপিং (<code>LTRIM</code> এর জাদু):</h3>
+<p>ফেসবুকে আপনার শেষ ১০টি নোটিফিকেশন দেখাতে চান। ডাটাবেসে কি কোটি কোটি নোটিফিকেশন জমা করে রাখবেন?</p>
+<pre><code class="language-typescript">await redis.lpush(`activities:user:${userId}`, newActivity);
+await redis.ltrim(`activities:user:${userId}`, 0, 9); // শুধুমাত্র ০ থেকে ৯ (১০টি) রাখবে, বাকি পুরনো সব অটো ডিলিট!
+</code></pre>
+<p><code>LTRIM</code> নিশ্চিত করে লিস্টের সাইজ কখনো ১০টির বেশি হবে না। পুরনো ডাটা নিজে থেকেই মেমোরি থেকে মুছে যায়।</p>
+<hr>
+<h1>মডিউল ৬: Redis Sets (Online Users &amp; Mutual Interests)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/set/set.service.ts"><code>src/app/modules/set/set.service.ts</code></a></p>
+<h3>১. Set-এর বিশেষত্ব কী?</h3>
+<ul>
+<li>সেটে কখনো <strong>ডুপ্লিকেট ভ্যালু</strong> থাকতে পারে না (সব উপাদান ইউনিক)।</li>
+<li>কোনো সদস্য সেটে আছে কি না তা চেক করা (<code>SISMEMBER</code>) মাত্র $O(1)$ সময় নেয়। অর্থাৎ ১ কোটি ইউজারের মধ্যেও একজন ইউজার অনলাইনে আছে কি না তা ১ মিলিসেকেন্ডেই বলে দেওয়া যায়।</li>
+</ul>
+<h3>২. অনলাইন ইউজার ট্র্যাকিং:</h3>
+<pre><code class="language-typescript">// ইউজার কানেক্ট হলে সেটে যোগ করি
+await redis.sadd(&quot;app:online_users&quot;, userId);
+
+// ইউজার ডিসকানেক্ট হলে সেট থেকে বাদ দিই
+await redis.srem(&quot;app:online_users&quot;, userId);
+
+// ইউজার অনলাইন আছে কি না চেক করি (O(1))
+const isOnline = await redis.sismember(&quot;app:online_users&quot;, userId);
+</code></pre>
+<h3>৩. মিউচুয়াল ফ্রেন্ড / কমন ইন্টারেস্ট (<code>SINTER</code>):</h3>
+<ul>
+<li>ইউজার ১-এর পছন্দ: <code>[&quot;coding&quot;, &quot;redis&quot;, &quot;football&quot;, &quot;chess&quot;]</code></li>
+<li>ইউজার ২-এর পছন্দ: <code>[&quot;gaming&quot;, &quot;redis&quot;, &quot;football&quot;, &quot;movies&quot;]</code></li>
+<li>দুজনের মধ্যে মিল কোথায়?</li>
+</ul>
+<pre><code class="language-typescript">// Redis Command: SINTER
+const common = await redis.sinter(&quot;user:1:interests&quot;, &quot;user:2:interests&quot;);
+// আউটপুট: [&quot;redis&quot;, &quot;football&quot;]
+</code></pre>
+<p>ডাটাবেসে বিশাল জয়েন কুয়েরি না চালিয়ে এক লাইনে কমন বিষয়গুলো বের হয়ে আসে।</p>
+<hr>
+<h1>মডিউল ৭: Sorted Sets / ZSET (Real-Time Leaderboards &amp; Ranking)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/leaderboard/leaderboard.service.ts"><code>src/app/modules/leaderboard/leaderboard.service.ts</code></a></p>
+<h3>১. কেন সাধারণ ডাটাবেসে লিডারবোর্ড বানানো কঠিন?</h3>
+<p>পাবজি বা ফ্রি-ফায়ারের মতো গেমে প্রতি সেকেন্ডে হাজার হাজার প্লেয়ার পয়েন্ট পাচ্ছে।</p>
+<ul>
+<li>SQL-এ টপ ১০ প্লেয়ার বের করতে হলে লিখতে হয়: <code>SELECT * FROM players ORDER BY score DESC LIMIT 10</code>।</li>
+<li>১০ লাখ প্লেয়ারের টেবিল যদি প্রতি সেকেন্ডে হাজার বার সর্ট করতে হয়, সার্ভার ক্র্যাশ করবে।</li>
+</ul>
+<h3>২. Redis ZSET কীভাবে কাজ করে?</h3>
+<p>ZSET-এ প্রতিটি নামের সাথে একটি <strong>Score</strong> যুক্ত থাকে। ডেটা ঢোকানোর সাথে সাথেই Redis একে স্বয়ংক্রিয়ভাবে স্কোরের ক্রমানুসারে সাজিয়ে ফেলে (ইন্টারনালি Skip List ব্যবহার করে)।</p>
+<pre><code class="language-typescript">// প্লেয়ারের স্কোর সেট করা
+await redis.zadd(&quot;leaderboard:weekly&quot;, 1500, &quot;Sajjad&quot;);
+
+// প্লেয়ার নতুন ৫০ পয়েন্ট পেল (ZINCRBY)
+await redis.zincrby(&quot;leaderboard:weekly&quot;, 50, &quot;Sajjad&quot;);
+
+// টপ ১০ জন হাইয়েস্ট স্কোরার বের করা
+const top10 = await redis.zrevrange(&quot;leaderboard:weekly&quot;, 0, 9, &quot;WITHSCORES&quot;);
+
+// সাজ্জাদের বর্তমান র‍্যাংক কত? (১ম, ২য় নাকি ৫০০তম?)
+const rank = await redis.zrevrank(&quot;leaderboard:weekly&quot;, &quot;Sajjad&quot;);
+</code></pre>
+<p>১০ লাখ ইউজারের মধ্যেও র‍্যাংক বের করতে কয়েক মাইক্রো-সেকেন্ড সময় লাগে!</p>
+<hr>
+<h1>মডিউল ৮: API Rate Limiting Middleware (DDoS &amp; Bot Throttling)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/rateLimiter/rateLimiter.service.ts"><code>src/app/modules/rateLimiter/rateLimiter.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা:</h3>
+<p>কোনো হ্যাকার স্ক্রিপ্ট লিখে আপনার লগইন এপিআই-তে প্রতি সেকেন্ডে ১০০০ বার ভুল পাসওয়ার্ড পাঠিয়ে সার্ভার ডাউন করে দিতে পারে।</p>
+<ul>
+<li><strong>সমাধান:</strong> রেট লিমিটার নিয়ম করে দেবে: <em>&quot;একই আইপি থেকে ৩০ সেকেন্ডে সর্বোচ্চ ৫টির বেশি রিকোয়েস্ট পাঠানো যাবে না।&quot;</em> ৬ নম্বর রিকোয়েস্টে সার্ভার বলবে <code>429 Too Many Requests</code>।</li>
+</ul>
+<h3>২. কীভাবে কাজ করে?</h3>
+<pre><code class="language-typescript">const key = `rl:${clientIp}`;
+const currentRequests = await redis.incr(key);
+
+// প্রথম রিকোয়েস্টে ৩০ সেকেন্ডের মেয়াদ শুরু
+if (currentRequests === 1) {
+  await redis.expire(key, 30);
+}
+
+// লিমিট অতিক্রম করলে রিকোয়েস্ট আটকে দেওয়া
+if (currentRequests &gt; 5) {
+  return res.status(429).json({ message: &quot;Too many requests! Try again later.&quot; });
+}
+</code></pre>
+<hr>
+<h1>মডিউল ৯: Distributed Mutex Lock (Double Booking &amp; Concurrency)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/lock/lock.service.ts"><code>src/app/modules/lock/lock.service.ts</code></a></p>
+<h3>১. সিনেমার শেষ সিট ও Double Booking সমস্যা:</h3>
+<p>সিনেমার মাত্র ১টি সিট খালি আছে (Seat A1)।</p>
+<ul>
+<li>রাত ১২:০০:০০ টায় রহিম এবং করিম একই সাথে &quot;বুক করুন&quot; বাটনে ক্লিক করল।</li>
+<li>সাধারণ কোডে রহিম ও করিম দুজনের কাছেই সিট খালি দেখাবে এবং দুজনের ব্যাংক থেকেই টাকা কেটে সিট বুক হয়ে যাবে! একে বলে <strong>Double Booking</strong>।</li>
+</ul>
+<h3>২. Redis ডিস্ট্রিবিউটেড লক কীভাবে সমাধান করে?</h3>
+<p>টিকিট বুকিংয়ের কাজ শুরু করার আগে একটি <strong>তালা (Lock)</strong> লাগাতে হয়:</p>
+<pre><code class="language-typescript">// SET key token NX PX 5000
+// NX মানে &quot;Only if Not Exists&quot; (যদি তালা না থাকে তবেই তালা লাগাও)
+// PX 5000 মানে ৫ সেকেন্ড পর তালা নিজে থেকেই খুলে যাবে (যাতে কোনো ডেডলক না হয়)
+const acquired = await redis.set(&quot;lock:ticket:A1&quot;, uniqueToken, &quot;PX&quot;, 5000, &quot;NX&quot;);
+
+if (!acquired) {
+  return res.status(409).json({ message: &quot;অন্য কেউ এই টিকিটটি বুক করছে! কিছুক্ষণ পর চেষ্টা করুন।&quot; });
+}
+
+try {
+  // ১.৫ সেকেন্ড সময় নিয়ে পেমেন্ট ও টিকিট বুক সম্পন্ন করি
+  await processPayment();
+} finally {
+  // কাজ শেষ! তালা নিরাপদে খুলে দেওয়া হলো
+  await releaseLockWithLuaScript();
+}
+</code></pre>
+<p>রহিম ও করিম একসাথে আসলেও Redis শুধুমাত্র একজনকে লক দেবে, অন্যজনকে সাথে সাথে ফিরিয়ে দেবে।</p>
+<hr>
+<h1>মডিউল ১০: Redis Pub/Sub (Real-Time Event Broadcasting)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/pubsub/pubsub.service.ts"><code>src/app/modules/pubsub/pubsub.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের উদাহরণ:</h3>
+<p>একটি রেডিও স্টেশনের কথা ভাবুন। রেডিও জকি মাইকে কথা বলে (Publisher)। সে জানে না ঢাকার শহরে কে কে রেডিও শুনছে। যে যে রেডিও অন করে সেই চ্যানেলে টিউন করে রেখেছে (Subscriber), তারা সবাই মুহূর্তে আওয়াজ শুনতে পায়।</p>
+<h3>২. ব্যাকএন্ডে কেন লাগে?</h3>
+<p>আপনার ব্যাকএন্ড সার্ভার ৪টি মেশিনে চলছে। ইউজার ১ মেশিন-এ তে অর্ডার প্লেস করল। কিন্তু ডেলিভারি বয়ের অ্যাপ কানেক্টেড মেশিন-ডি এর সাথে।</p>
+<ul>
+<li>মেশিন-এ Redis চ্যানেলে পাবলিশ করে দেবে: <code>PUBLISH orders &quot;New Order #101&quot;</code></li>
+<li>সব সার্ভার সাথে সাথে নোটিফিকেশন পেয়ে যাবে এবং যার যার সকেটে মেসেজ পাঠিয়ে দেবে।</li>
+</ul>
+<pre><code class="language-typescript">// মেসেজ ব্রডকাস্ট করা
+await redis.publish(&quot;notifications:live&quot;, JSON.stringify({ event: &quot;NEW_ORDER&quot;, id: 101 }));
+
+// ব্যাকগ্রাউন্ডে শোনা (Subscriber)
+redisSub.subscribe(&quot;notifications:live&quot;);
+redisSub.on(&quot;message&quot;, (channel, message) =&gt; {
+  console.log(&quot;নতুন মেসেজ পেয়েছি:&quot;, message);
+});
+</code></pre>
+<hr>
+<h1>মডিউল ১১: Geospatial Queries (Nearby Riders &amp; Distance Calculation)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/geo/geo.service.ts"><code>src/app/modules/geo/geo.service.ts</code></a></p>
+<h3>১. বাস্তব জীবনের সমস্যা:</h3>
+<p>পাঠাও বা উবার অ্যাপে আপনি যখন রাইড চান, অ্যাপ কীভাবে ১ সেকেন্ডের মধ্যে বলে দেয় আপনার আশেপাশে ৫ কিলোমিটারের মধ্যে কোন কোন বাইকার আছে?</p>
+<ul>
+<li>ডাটাবেসে লাখ লাখ বাইকারের ল্যাটিটিউড ও লংগিটিউড দিয়ে গোলীয় ত্রিকোণমিতিক হিসাব (Haversine formula) করতে গেলে প্রচুর সময় লাগে।</li>
+</ul>
+<h3>২. Redis কীভাবে সমাধান করে?</h3>
+<p>Redis আপনার স্থানাঙ্কগুলোকে <strong>Geohash</strong> অ্যালগরিদম দিয়ে ৫২-বিট নাম্বারে রূপান্তর করে মেমোরিতে সাজিয়ে রাখে।</p>
+<pre><code class="language-typescript">// ১. রাইডারের লোকেশন সেভ করা (মনে রাখবেন: আগে Longitude, পরে Latitude)
+await redis.geoadd(&quot;locations:riders&quot;, 90.4152, 23.7925, &quot;rider_gulshan&quot;);
+await redis.geoadd(&quot;locations:riders&quot;, 90.4043, 23.7937, &quot;rider_banani&quot;);
+
+// ২. দুই রাইডারের মধ্যবর্তী দূরত্ব কত কিলোমিটার?
+const dist = await redis.geodist(&quot;locations:riders&quot;, &quot;rider_gulshan&quot;, &quot;rider_banani&quot;, &quot;km&quot;);
+
+// ৩. আমার লোকেশনের আশেপাশে ৫ কিলোমিটারের মধ্যে কারা আছে?
+const nearby = await redis.geosearch(&quot;locations:riders&quot;, &quot;FROMLONLAT&quot;, 90.4125, 23.7900, &quot;BYRADIUS&quot;, 5, &quot;km&quot;);
+</code></pre>
+<p>কয়েক মিলিসেকেন্ডেই আশেপাশের সব রাইডারের লিস্ট তাদের দূরত্বের মাপসহ পাওয়া যায়।</p>
+<hr>
+<h1>মডিউল ১২: Big Data Analytics (HyperLogLog &amp; Bitmaps)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/analytics/analytics.service.ts"><code>src/app/modules/analytics/analytics.service.ts</code></a></p>
+<h3>১. HyperLogLog (HLL) — মেমোরির ম্যাজিক:</h3>
+<p>ধরা যাক আপনার প্রথম আলো বা বিডিনিউজ২৪-এর মতো সাইটে প্রতিদিন ১ কোটি মানুষ আসে। আপনি দেখতে চান আজকে মোট <strong>কতজন ইউনিক ভিজিটর</strong> এসেছে।</p>
+<ul>
+<li><strong>সাধারণ সমস্যা:</strong> ১ কোটি আইপি এড্রেস যদি সেটে (<code>Set</code>) রাখেন, আপনার প্রায় <strong>৮০০ মেগাবাইট থেকে ১ জিবি র‍্যাম</strong> শেষ হয়ে যাবে!</li>
+<li><strong>HyperLogLog এর ম্যাজিক:</strong> এটি একটি গাণিতিক অ্যালগরিদম। এতে আপনি ১০ জন ভিজিটর দেন বা ১০ কোটি ভিজিটর দেন—এটি <strong>সর্বোচ্চ মাত্র ১২ কিলোবাইট (KB)</strong> মেমোরি খরচ করে! এবং মাত্র ০.৮১% ভুলের ব্যবধানে নিখুঁতভাবে ইউনিক সংখ্যা বলে দেয়!</li>
+</ul>
+<pre><code class="language-typescript">// ইউনিক ভিজিটর কাউন্ট করা
+await redis.pfadd(&quot;hll:visitors:home&quot;, userIp);
+const totalUnique = await redis.pfcount(&quot;hll:visitors:home&quot;);
+</code></pre>
+<h3>২. Bitmaps (দৈনিক উপস্থিতি / DAU ট্র্যাকার):</h3>
+<ul>
+<li>প্রতিটি ইউজারের জন্য একটি করে ছোট বিট (০ অথবা ১)।</li>
+<li>ইউজার ৪২ নম্বর যদি আজকে অ্যাপে ঢুকে, ৪২ নম্বর বিটটি ১ হয়ে যাবে:</li>
+</ul>
+<pre><code class="language-typescript">// ইউজারের উপস্থিতি ১ করা
+await redis.setbit(&quot;dau:2026-10-03&quot;, 42, 1);
+
+// আজকে মোট কতজন ইউজার এক্টিভ ছিল?
+const totalActive = await redis.bitcount(&quot;dau:2026-10-03&quot;);
+
+// ইউজার ৪২ কি আজকে ঢুকেছিল?
+const wasActive = await redis.getbit(&quot;dau:2026-10-03&quot;, 42); // রিটার্ন করে 1 অথবা 0
+</code></pre>
+<p><strong>১০ লাখ ইউজারের আজকের উপস্থিতি স্টোর করতে মাত্র ১২৫ KB র‍্যাম লাগে!</strong></p>
+<hr>
+<h1>মডিউল ১৩: Pipelines &amp; Atomic Transactions (MULTI / EXEC)</h1>
+<p>📂 <strong>কোড ফাইল:</strong> <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/src/app/modules/batch/batch.service.ts"><code>src/app/modules/batch/batch.service.ts</code></a></p>
+<h3>১. Redis Pipelining (নেটওয়ার্ক স্পিড বুস্টার):</h3>
+<p>ধরা যাক আপনাকে ১০০টি প্রোডাক্ট Redis-এ সেভ করতে হবে।</p>
+<ul>
+<li><strong>সাধারণ নিয়ম:</strong> ১টি পাঠাবেন -&gt; রেসপন্স আসবে -&gt; ২য়টি পাঠাবেন -&gt; রেসপন্স আসবে। এতে ১০০ বার ইন্টারনেটে যাওয়া-আসা (Round Trip) করতে গিয়ে ২০০-৩০০ মিলিসেকেন্ড লেগে যায়।</li>
+<li><strong>Pipeline:</strong> আপনি ১০০টি কমান্ড একসাথে একটিমাত্র প্যাকেটে ভরে Redis-এ পাঠিয়ে দেবেন। Redis একবারে ১০০টি রান করে একবারে রেজাল্ট ফেরত দেবে। সময় ২০০ms থেকে কমে মাত্র <strong>২-৩ মিলিসেকেন্ডে</strong> নেমে আসে!</li>
+</ul>
+<pre><code class="language-typescript">const pipeline = redis.pipeline();
+for (let i = 1; i &lt;= 100; i++) {
+  pipeline.set(`item:${i}`, `value_${i}`);
+}
+await pipeline.exec(); // এক ঝটকায় সব এক্সিকিউট!
+</code></pre>
+<h3>২. Transactions (<code>MULTI</code> / <code>EXEC</code>):</h3>
+<p>ধরা যাক আপনি বিকাশ বা ব্যাংকে টাকা ট্রান্সফার করবেন।</p>
+<ul>
+<li>ইউজার &#39;A&#39; এর একাউন্ট থেকে ১০০ টাকা মাইনাস হবে।</li>
+<li>ইউজার &#39;B&#39; এর একাউন্টে ১০০ টাকা প্লাস হবে।</li>
+<li>এমন যেন কখনো না হয় যে A-এর টাকা কেটে গেল, কিন্তু সার্ভার ক্র্যাশ করায় B টাকা পেল না!</li>
+<li><code>MULTI ... EXEC</code> নিশ্চিত করে এই দুটি কাজ একটি সিঙ্গেল ব্লকে একসাথেই ঘটবে, মাঝখানে অন্য কেউ ঢুকতে পারবে না।</li>
+</ul>
+<pre><code class="language-typescript">const transaction = redis.multi();
+transaction.decrby(&quot;wallet:user:A&quot;, 100);
+transaction.incrby(&quot;wallet:user:B&quot;, 100);
+await transaction.exec();
+</code></pre>
+<hr>
+<h2>🎯 ভিডিও বানানোর জন্য আপনার চেকলিস্ট (Summary Flow):</h2>
+<ol>
+<li><strong>শুরু করুন:</strong> &quot;Redis মানে শুধুই ক্যাশিং নয়, এটি একটি পাওয়ারফুল ইন-মেমোরি ডেটা স্ট্রাকচার স্টোর।&quot;</li>
+<li><strong>ওটিপি ও স্ট্রিংস দেখান:</strong> TTL কিভাবে ডেভলপারের জীবন সহজ করে।</li>
+<li><strong>ক্যাশিং দেখান:</strong> পোস্টম্যানে ১৫০০ms বনাম ২ms এর লাইভ স্পিড পার্থক্য দেখান।</li>
+<li><strong>হ্যাশ বনাম স্ট্রিং:</strong> কেন সম্পূর্ণ অবজেক্ট বারবার আপডেট করার চেয়ে হ্যাশ অনেক বেশি এফিশিয়েন্ট।</li>
+<li><strong>কিউ ও লিডারবোর্ড:</strong> ব্যাকগ্রাউন্ড কাজ এবং গেমিং স্কোরবোর্ড কীভাবে এক নিমিষে কাজ করে।</li>
+<li><strong>সিকিউরিটি ও সেফটি:</strong> রেট লিমিটিং এবং ডাবল-বুকিং বন্ধে ডিসট্রিবিউটেড লকিং।</li>
+<li><strong>ম্যাজিক ফিচার্স:</strong> HyperLogLog (১২ KB ফিক্সড মেমোরি) ও Bitmaps বুঝিয়ে সবাইকে চমকে দিন!</li>
+</ol>
+<p>এই পূর্ণাঙ্গ ডকুমেন্টটি আপনার প্রজেক্টের রুট ডিরেক্টরিতে <a href="file:///c:/Users/mdsaj/Sajjad/My-folder/Backend-recap/Redis/run-redis/REDIS_MASTERCLASS_BANGLA_DOC.md"><code>REDIS_MASTERCLASS_BANGLA_DOC.md</code></a> হিসেবে স্থায়ীভাবে সেভ করা হয়েছে। আপনি যখনই ভিডিও রেকর্ড করবেন বা রিভিশন দেবেন, এটি ওপেন করে পয়েন্ট বাই পয়েন্ট সহজে ব্যাখ্যা করতে পারবেন! 🚀</p>
+
+</body>
+</html>
