@@ -4,10 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "run": "tsx src/index.ts",
+    "dev": "tsx src/app.ts",
+    "run": "tsx src/app.ts",
+    "watch": "tsx watch src/app.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "practice": "tsx Questions/01-typescript/ts-interview-practice.ts",
+    "start": "node dist/app.js"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +19,8 @@
     "@types/node": "^26.6.5",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
   }
 }
